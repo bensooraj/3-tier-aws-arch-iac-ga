@@ -17,6 +17,7 @@ locals {
   ]
 
   availability_zones = data.aws_availability_zones.available.names
+  application        = data.aws_default_tags.provider.tags.application
 }
 
 # VPC
@@ -24,7 +25,7 @@ resource "aws_vpc" "three_tier_vpc" {
   cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
   tags = {
-    Name = "three_tier_vpc"
+    Name = "${local.application}-vpc"
   }
 }
 
@@ -37,7 +38,7 @@ resource "aws_subnet" "web_subnets" {
   availability_zone = local.availability_zones[count.index]
 
   tags = {
-    Name = "web-tier-${count.index}-${local.availability_zones[count.index]}"
+    Name = "${local.application}-web-tier-${count.index}-${local.availability_zones[count.index]}"
   }
 }
 
@@ -49,7 +50,7 @@ resource "aws_subnet" "app_subnets" {
   availability_zone = local.availability_zones[count.index]
 
   tags = {
-    Name = "app-tier-${count.index}-${local.availability_zones[count.index]}"
+    Name = "${local.application}-app-tier-${count.index}-${local.availability_zones[count.index]}"
   }
 }
 
@@ -61,6 +62,14 @@ resource "aws_subnet" "data_subnets" {
   availability_zone = local.availability_zones[count.index]
 
   tags = {
-    Name = "data-tier-${count.index}-${local.availability_zones[count.index]}"
+    Name = "${local.application}-data-tier-${count.index}-${local.availability_zones[count.index]}"
+  }
+}
+
+# Internet Gateway
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.three_tier_vpc.id
+  tags = {
+    Name = "${local.application}-igw"
   }
 }
