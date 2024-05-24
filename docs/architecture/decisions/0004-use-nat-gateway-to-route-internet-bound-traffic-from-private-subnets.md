@@ -14,12 +14,14 @@ A NAT gateway is a Network Address Translation (NAT) service. You can use a NAT 
 
 We will use one NAT Gateway in one of the public/`web` subnets (most likely in the `us-east-1a` public/`web` subnet). We will route all traffic bound for `0.0.0.0/0` from the `app` and `data` subnets, to the NAT Gateway, as shown below,
 ```hcl
-...
-route {
+resource "aws_route_table" "nat_rt" {
+  vpc_id = aws_vpc.three_tier_vpc.id
+
+  route {
     cidr_block     = var.all_ipv4_cidr
     nat_gateway_id = aws_nat_gateway.nat_gateway.id
+  }
 }
-...
 ```
 
 ## Consequences

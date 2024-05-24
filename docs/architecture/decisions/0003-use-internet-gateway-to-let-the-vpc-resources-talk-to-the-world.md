@@ -16,9 +16,16 @@ It enables resources in the public subnets (such as EC2 instances) to connect to
 
 ## Decision
 
-We will attach an IGW to our VPC.
+We will attach an IGW to our VPC. We will route all traffic bound for `0.0.0.0/0` from the `web` subnets, to the Internet Gateway, as shown below,
+```hcl
+resource "aws_route_table" "igw_rt" {
+  vpc_id = aws_vpc.three_tier_vpc.id
+
+  route {
+    cidr_block = var.all_ipv4_cidr # All traffic / public 
+    gateway_id = aws_internet_gateway.igw.id
+  }
+}
+```
 
 ## Consequences
-
-Resources:
-1. [Connect to the internet using an internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html)

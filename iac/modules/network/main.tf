@@ -65,11 +65,3 @@ resource "aws_subnet" "data_subnets" {
     Name = "${local.application}-data-tier-${count.index}-${local.availability_zones[count.index]}"
   }
 }
-
-# Internet Gateway
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.three_tier_vpc.id
-  tags = {
-    Name = "${local.application}-igw"
-  }
-}
