@@ -7,4 +7,5 @@ gen-arch-diag:
 lint:
 	@echo "Running lint"
 	@terraform fmt -recursive
+	@cd iac && terraform validate && cd ..
 	@tflint

@@ -53,3 +53,14 @@ variable "ssh_public_key" {
   description = "The SSH public key to use for SSH access"
   type        = string
 }
+
+# Compute Module
+variable "bastion_host_ami_id" {
+  description = "The AMI ID for the bastion host"
+  type        = string
+}
+
+variable "bastion_host_instance_type" {
+  description = "The instance type for the bastion host"
+  type        = string
+}

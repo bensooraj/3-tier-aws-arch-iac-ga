@@ -8,3 +8,18 @@ module "network" {
   app_port      = var.app_port
   db_port       = var.db_port
 }
+
+module "compute" {
+  source         = "./modules/compute"
+  ssh_public_key = var.ssh_public_key
+
+  # Subnet IDs
+  web_subnet_ids  = module.network.web_subnet_ids
+  app_subnet_ids  = module.network.app_subnet_ids
+  data_subnet_ids = module.network.data_subnet_ids
+
+  # Bastion Host
+  bastion_host_ami_id        = var.bastion_host_ami_id
+  bastion_host_instance_type = var.bastion_host_instance_type
+  bastion_host_sg_id         = module.network.bastion_host_sg_id
+}
