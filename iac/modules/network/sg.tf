@@ -1,8 +1,8 @@
 # Security Groups for AWS resources
 
-# Bastion Host Security Group
+# Bastion Host Security Group (subnet: web)
 resource "aws_security_group" "bastion_host_sg" {
-  name        = "${local.application}-web-sg"
+  name        = "${local.application}-bastion-sg"
   description = "Allow inbound SSH traffic from the internet"
   vpc_id      = aws_vpc.three_tier_vpc.id
 
@@ -21,7 +21,7 @@ resource "aws_security_group" "bastion_host_sg" {
   }
 
   tags = {
-    Name = "${local.application}-web-sg"
+    Name = "${local.application}-bastion-sg"
   }
 }
 
@@ -38,19 +38,19 @@ resource "aws_security_group" "ssh_from_bastion_sg" {
     security_groups = [aws_security_group.bastion_host_sg.id]
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [var.all_ipv4_cidr]
-  }
+  # egress {
+  #   from_port   = 0
+  #   to_port     = 0
+  #   protocol    = "-1"
+  #   cidr_blocks = [var.all_ipv4_cidr]
+  # }
 
   tags = {
     Name = "${local.application}-ssh-from-bastion-sg"
   }
 }
 
-# Application Load Balancer Security Group
+# Application Load Balancer Security Group (subnet: web)
 resource "aws_security_group" "alb_sg" {
   name        = "${local.application}-alb-sg"
   description = "Allow inbound HTTP and HTTPS traffic from the internet"
@@ -79,8 +79,8 @@ resource "aws_security_group" "alb_sg" {
   #   cidr_blocks = [var.all_ipv4_cidr]
   # }
   egress {
-    from_port   = var.web_port
-    to_port     = var.web_port
+    from_port   = var.app_port
+    to_port     = var.app_port
     protocol    = "tcp"
     cidr_blocks = [var.all_ipv4_cidr]
   }
@@ -90,15 +90,15 @@ resource "aws_security_group" "alb_sg" {
   }
 }
 
-# Web Security Group
-resource "aws_security_group" "web_sg" {
-  name        = "${local.application}-web-sg"
+# App Security Group (subnet: app)
+resource "aws_security_group" "app_sg" {
+  name        = "${local.application}-app-sg"
   description = "Allow inbound TCP traffic from the ALB"
   vpc_id      = aws_vpc.three_tier_vpc.id
 
   ingress {
-    from_port       = var.web_port
-    to_port         = var.web_port
+    from_port       = var.app_port
+    to_port         = var.app_port
     protocol        = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
     description     = "Allow inbound TCP traffic from the ALB"
@@ -113,22 +113,22 @@ resource "aws_security_group" "web_sg" {
   }
 
   tags = {
-    Name = "${local.application}-web-sg"
+    Name = "${local.application}-app-sg"
   }
 }
 
-# Database Security Group
+# Database Security Group (subnet: data)
 resource "aws_security_group" "db_sg" {
   name        = "${local.application}-db-sg"
-  description = "Allow inbound TCP traffic from the web servers"
+  description = "Allow inbound TCP traffic from the app servers"
   vpc_id      = aws_vpc.three_tier_vpc.id
 
   ingress {
     from_port       = var.db_port
     to_port         = var.db_port
     protocol        = "tcp"
-    security_groups = [aws_security_group.web_sg.id]
-    description     = "Allow inbound TCP traffic from the web servers"
+    security_groups = [aws_security_group.app_sg.id]
+    description     = "Allow inbound TCP traffic from the app servers"
   }
 
   egress {
