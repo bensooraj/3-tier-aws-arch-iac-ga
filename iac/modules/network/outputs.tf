@@ -23,3 +23,7 @@ output "bastion_host_sg_id" {
 output "app_sg_id" {
   value = aws_security_group.app_sg.id
 }
+
+output "ssh_from_bastion_sg_id" {
+  value = aws_security_group.ssh_from_bastion_sg.id
+}

@@ -47,3 +47,8 @@ variable "app_sg_id" {
   description = "The security group ID for the app server"
   type        = string
 }
+
+variable "ssh_from_bastion_sg_id" {
+  description = "The security group ID for allowing SSH from the bastion host"
+  type        = string
+}

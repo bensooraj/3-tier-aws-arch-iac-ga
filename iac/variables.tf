@@ -74,8 +74,3 @@ variable "app_server_instance_type" {
   description = "The instance type for the app server"
   type        = string
 }
-
-variable "app_server_sg_id" {
-  description = "The security group ID for the app server"
-  type        = string
-}

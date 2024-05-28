@@ -30,7 +30,10 @@ resource "aws_instance" "app_server" {
   key_name      = aws_key_pair.keypair.key_name
   subnet_id     = var.app_subnet_ids[count.index]
 
-  vpc_security_group_ids = [var.app_sg_id]
+  vpc_security_group_ids = [
+    var.app_sg_id,
+    var.ssh_from_bastion_sg_id
+  ]
 
   tags = {
     Name = "${local.application}-app-server-${count.index}"

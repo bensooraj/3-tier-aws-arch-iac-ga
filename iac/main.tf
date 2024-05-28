@@ -27,4 +27,5 @@ module "compute" {
   app_server_ami_id        = var.app_server_ami_id
   app_server_instance_type = var.app_server_instance_type
   app_sg_id                = module.network.app_sg_id
+  ssh_from_bastion_sg_id   = module.network.ssh_from_bastion_sg_id
 }

@@ -36,6 +36,7 @@ resource "aws_security_group" "ssh_from_bastion_sg" {
     to_port         = var.ssh_port
     protocol        = "tcp"
     security_groups = [aws_security_group.bastion_host_sg.id]
+    description     = "Allow inbound SSH traffic from the bastion host"
   }
 
   # egress {
