@@ -32,3 +32,18 @@ variable "bastion_host_sg_id" {
   description = "The security group ID for the bastion host"
   type        = string
 }
+
+variable "app_server_ami_id" {
+  description = "The AMI ID for the app server"
+  type        = string
+}
+
+variable "app_server_instance_type" {
+  description = "The instance type for the app server"
+  type        = string
+}
+
+variable "app_sg_id" {
+  description = "The security group ID for the app server"
+  type        = string
+}

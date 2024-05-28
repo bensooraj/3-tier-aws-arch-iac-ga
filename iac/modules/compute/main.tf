@@ -10,7 +10,7 @@ resource "random_shuffle" "random_web_subnet_id" {
 # Bastion Host
 resource "aws_instance" "bastion_host" {
   ami           = var.bastion_host_ami_id
-  instance_type = var.bastion_host_ami_id
+  instance_type = var.bastion_host_instance_type
   key_name      = aws_key_pair.keypair.key_name
   subnet_id     = random_shuffle.random_web_subnet_id.result[0]
 
@@ -19,5 +19,20 @@ resource "aws_instance" "bastion_host" {
 
   tags = {
     Name = "${local.application}-bastion-host"
+  }
+}
+
+# App Server
+resource "aws_instance" "app_server" {
+  count         = length(var.app_subnet_ids)
+  ami           = var.app_server_ami_id
+  instance_type = var.app_server_instance_type
+  key_name      = aws_key_pair.keypair.key_name
+  subnet_id     = var.app_subnet_ids[count.index]
+
+  vpc_security_group_ids = [var.app_sg_id]
+
+  tags = {
+    Name = "${local.application}-app-server-${count.index}"
   }
 }

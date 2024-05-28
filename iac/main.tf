@@ -22,4 +22,9 @@ module "compute" {
   bastion_host_ami_id        = var.bastion_host_ami_id
   bastion_host_instance_type = var.bastion_host_instance_type
   bastion_host_sg_id         = module.network.bastion_host_sg_id
+
+  # App Server
+  app_server_ami_id        = var.app_server_ami_id
+  app_server_instance_type = var.app_server_instance_type
+  app_sg_id                = module.network.app_sg_id
 }
