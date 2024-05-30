@@ -17,6 +17,11 @@ resource "aws_instance" "bastion_host" {
   vpc_security_group_ids      = [var.bastion_host_sg_id]
   associate_public_ip_address = true
 
+  metadata_options {
+    http_endpoint = "enabled"
+    http_tokens   = "required"
+  }
+
   tags = {
     Name = "${local.application}-bastion-host"
   }
@@ -34,6 +39,13 @@ resource "aws_instance" "app_server" {
     var.app_sg_id,
     var.ssh_from_bastion_sg_id
   ]
+
+  user_data = file("scripts/install_httpd.sh")
+
+  metadata_options {
+    http_endpoint = "enabled"
+    http_tokens   = "required"
+  }
 
   tags = {
     Name = "${local.application}-app-server-${count.index}"

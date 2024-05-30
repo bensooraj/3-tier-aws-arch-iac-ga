@@ -52,3 +52,23 @@ variable "ssh_from_bastion_sg_id" {
   description = "The security group ID for allowing SSH from the bastion host"
   type        = string
 }
+
+variable "alb_sg_id" {
+  description = "The security group ID for the application load balancer"
+  type        = string
+}
+
+variable "web_port" {
+  description = "The port to allow HTTP traffic on"
+  type        = number
+}
+
+variable "app_port" {
+  description = "The port to allow HTTPS traffic on"
+  type        = number
+}
+
+variable "vpc_id" {
+  description = "The VPC ID"
+  type        = string
+}

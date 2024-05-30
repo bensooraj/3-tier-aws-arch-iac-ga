@@ -13,7 +13,8 @@ module "compute" {
   source         = "./modules/compute"
   ssh_public_key = var.ssh_public_key
 
-  # Subnet IDs
+  # VPC and Subnet IDs
+  vpc_id          = module.network.vpc_id
   web_subnet_ids  = module.network.web_subnet_ids
   app_subnet_ids  = module.network.app_subnet_ids
   data_subnet_ids = module.network.data_subnet_ids
@@ -28,4 +29,9 @@ module "compute" {
   app_server_instance_type = var.app_server_instance_type
   app_sg_id                = module.network.app_sg_id
   ssh_from_bastion_sg_id   = module.network.ssh_from_bastion_sg_id
+  app_port                 = var.app_port
+
+  # Application Load Balancer
+  alb_sg_id = module.network.alb_sg_id
+  web_port  = var.web_port
 }

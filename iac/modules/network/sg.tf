@@ -58,8 +58,8 @@ resource "aws_security_group" "alb_sg" {
   vpc_id      = aws_vpc.three_tier_vpc.id
 
   ingress {
-    from_port   = var.http_port
-    to_port     = var.http_port
+    from_port   = var.web_port
+    to_port     = var.web_port
     protocol    = "tcp"
     cidr_blocks = [var.all_ipv4_cidr]
     description = "Allow inbound HTTP traffic from the internet"
