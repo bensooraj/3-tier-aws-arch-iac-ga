@@ -35,3 +35,12 @@ module "compute" {
   alb_sg_id = module.network.alb_sg_id
   web_port  = var.web_port
 }
+
+module "dns" {
+  source = "./modules/dns"
+
+  dns_zone_name = var.dns_zone_name
+  alb_dns_name  = module.compute.alb_dns_name
+  alb_zone_id   = module.compute.alb_zone_id
+
+}

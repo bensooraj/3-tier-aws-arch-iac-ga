@@ -74,3 +74,9 @@ variable "app_server_instance_type" {
   description = "The instance type for the app server"
   type        = string
 }
+
+# DNS Module
+variable "dns_zone_name" {
+  description = "The name of the zone to create for the three tier application"
+  type        = string
+}
