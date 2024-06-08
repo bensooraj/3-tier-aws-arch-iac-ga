@@ -40,7 +40,8 @@ resource "aws_instance" "app_server" {
     var.ssh_from_bastion_sg_id
   ]
 
-  user_data = file("scripts/install_httpd.sh")
+  user_data                   = file("scripts/install_httpd.sh")
+  user_data_replace_on_change = true
 
   metadata_options {
     http_endpoint = "enabled"

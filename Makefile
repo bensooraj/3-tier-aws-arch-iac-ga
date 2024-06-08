@@ -8,4 +8,13 @@ lint:
 	@echo "Running lint"
 	@terraform fmt -recursive
 	@cd iac && terraform validate && cd ..
+	@cd cloudflare && terraform validate && cd ..
 	@tflint
+
+plan:
+	@echo "Running plan"
+	@cd iac && terraform plan \
+		-target=module.network \
+		-target=module.compute \
+		-target=module.dns \
+		&& cd ..
