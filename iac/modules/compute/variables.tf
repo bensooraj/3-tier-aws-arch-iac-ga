@@ -72,3 +72,18 @@ variable "vpc_id" {
   description = "The VPC ID"
   type        = string
 }
+
+variable "asg_min_size" {
+  description = "The minimum number of instances in the auto scaling group"
+  type        = number
+}
+
+variable "asg_desired_capacity" {
+  description = "The desired number of instances in the auto scaling group"
+  type        = number
+}
+
+variable "asg_max_size" {
+  description = "The maximum number of instances in the auto scaling group"
+  type        = number
+}
