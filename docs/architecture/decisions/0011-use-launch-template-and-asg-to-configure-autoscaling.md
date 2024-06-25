@@ -28,3 +28,4 @@ We will configure,
 2b and 3b to destroy **a** member of the ASG if the EC2 instances in the group use less than 10% CPU over 2 consecutive evaluation periods of 2 minutes. 
 
 ## Consequences
+1. [Manage AWS Auto Scaling Groups](https://developer.hashicorp.com/terraform/tutorials/aws/aws-asg)
