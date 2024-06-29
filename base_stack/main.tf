@@ -1,3 +1,8 @@
+locals {
+  environment = var.default_tags["environment"]
+  stack_name  = var.default_tags["stack_name"]
+}
+
 # KMS key and alias
 resource "aws_kms_key" "base_stack" {
   description             = "KMS key for base stack. This key is used to encrypt bucket objects"

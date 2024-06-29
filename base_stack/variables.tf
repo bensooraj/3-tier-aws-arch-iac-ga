@@ -4,6 +4,7 @@ variable "default_tags" {
     environment = string
     owner       = string
     application = string
+    stack_name  = string
   })
 }
 
