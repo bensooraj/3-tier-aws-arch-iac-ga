@@ -6,6 +6,7 @@ locals {
 }
 
 module "primary_network" {
+  count = var.create_primary ? 1 : 0
   providers = {
     aws = aws.primary
   }
@@ -15,7 +16,7 @@ module "primary_network" {
 }
 
 module "failover_network" {
-  count = var.create_failover ? 1 : 0
+  count = var.create_primary && var.create_failover ? 1 : 0
   providers = {
     aws = aws.failover
   }

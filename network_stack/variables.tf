@@ -18,6 +18,11 @@ variable "failover_region" {
   description = "Failover region for the stack"
 }
 
+variable "create_primary" {
+  type        = bool
+  description = "Create a primary region for the stack"
+}
+
 variable "create_failover" {
   type        = bool
   description = "Create a failover region for the stack"
