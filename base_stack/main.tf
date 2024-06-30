@@ -1,6 +1,7 @@
 locals {
-  environment = var.default_tags["environment"]
-  stack_name  = var.default_tags["stack_name"]
+  environment          = var.default_tags["environment"]
+  stack_name           = var.default_tags["stack_name"]
+  ssm_parameter_prefix = "/${var.primary_region}/${local.environment}/${local.stack_name}"
 }
 
 # KMS key and alias
